@@ -1,5 +1,4 @@
-// Blind-box character names cross-checked against TOYSEZ collection pages.
-// Unknown/unverified slots intentionally remain as Piece N until confirmed.
+// Named blind-box pieces. Unknown/unverified slots intentionally remain as Piece N until confirmed.
 const TRUELOVE_PIECE_NAMES={
 "100-mr-bone-game-man-series":["NO.8","NO.16","NO.32","NO.128","Red Gragon","Blue Mach","Yellow Lightning (Secret 1/54)","Green Light (Secret 1/96)",null],
 "100-mr-bone-halloween-theme-series":["Mummy","Demon","Death","Franken","Werewolf","Pumpkin Head","Dracula (Secret 1/48)","Hollow Man (Secret 1/96)"],
@@ -10,9 +9,14 @@ const TRUELOVE_PIECE_NAMES={
 function applyTrueLovePieceNames(){
  document.querySelectorAll('.card[data-id]').forEach(card=>{
   const names=TRUELOVE_PIECE_NAMES[card.dataset.id]; if(!names)return;
-  card.querySelectorAll('.subitem').forEach((row,i)=>{const label=row.querySelector('label');if(label&&names[i])label.textContent=names[i]});
+  card.querySelectorAll('.subitem').forEach((row,i)=>{
+   const label=row.querySelector('label');
+   const name=names[i];
+   if(label&&name&&label.textContent!==name) label.textContent=name;
+  });
  });
 }
 const _tlObserver=new MutationObserver(applyTrueLovePieceNames);
-const _tlCollection=document.querySelector('#collection');if(_tlCollection)_tlObserver.observe(_tlCollection,{childList:true,subtree:true});
+const _tlCollection=document.querySelector('#collection');
+if(_tlCollection)_tlObserver.observe(_tlCollection,{childList:true,subtree:true});
 applyTrueLovePieceNames();
